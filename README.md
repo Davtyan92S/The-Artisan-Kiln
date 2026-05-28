@@ -4,6 +4,12 @@
 
 > Это **фронтенд-демо**: данные хранятся в браузере (Redux), оплата и отправка заказа не подключены к серверу — после успешной валидации формы показывается уведомление.
 
+## Демо онлайн
+
+**[https://the-artisan-kiln-henna.vercel.app/](https://the-artisan-kiln-henna.vercel.app/)**
+
+Сайт развёрнут на [Vercel](https://vercel.com). После `git push` в ветку `main` деплой обновляется автоматически.
+
 ---
 
 ## Для чего этот проект
@@ -182,6 +188,8 @@ NEXT_PUBLIC_API_URL=https://api.example.com
 ---
 
 ## Деплой
+
+Текущий production: **[the-artisan-kiln-henna.vercel.app](https://the-artisan-kiln-henna.vercel.app/)**
 
 Сборка совместима с [Vercel](https://vercel.com), любым Node-хостингом или Docker-образом после `npm run build` + `npm run start`.
 
