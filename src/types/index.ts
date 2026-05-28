@@ -1,4 +1,16 @@
-export type TileId = 'ocean-wave' | 'forest-fern' | 'terracotta-dot' | 'yellow-star'
+export type TileId =
+  | 'ocean-wave'
+  | 'forest-fern'
+  | 'terracotta-dot'
+  | 'yellow-star'
+  | 'floral'
+  | 'corner-navy'
+  | 'corner-terra'
+  | 'diamond'
+  | 'herringbone'
+  | 'bird'
+  | 'starburst'
+  | 'vine'
 
 export type DesignPattern =
   | 'wave'
@@ -19,7 +31,7 @@ export interface Tile {
   name: string
   price: number
   color: string
-  pattern: string
+  pattern: DesignPattern
   image: string
 }
 

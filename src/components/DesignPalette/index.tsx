@@ -23,12 +23,11 @@ export const DesignPalette = () => {
 
   return (
     <div className="w-full overflow-y-auto design-scroll">
-      <div className="grid w-full grid-cols-2 gap-1 p-1">
+      <div className="grid w-full grid-cols-2 gap-1 p-1.5">
         {paletteTiles.map((tile) => (
           <PaletteTileButton
             key={tile.id}
             pattern={tile.pattern}
-            label={tile.label}
             selected={selectedPattern === tile.pattern}
             isDragging={isDragging}
             onSelect={handleSelect}

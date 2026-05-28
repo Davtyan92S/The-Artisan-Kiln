@@ -9,6 +9,8 @@ export const setDraggedPattern = (dataTransfer: DataTransfer, pattern: DesignPat
 
 export const getDraggedPattern = (dataTransfer: DataTransfer): DesignPattern | null => {
   const raw = dataTransfer.getData(DESIGN_TILE_MIME)
-  if (!raw) return null
+  if (!raw) {
+    return null
+  }
   return raw as DesignPattern
 }

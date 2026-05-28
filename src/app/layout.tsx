@@ -19,8 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bebas.variable} ${inter.variable} h-full bg-cream`}>
-      <body className="min-h-screen bg-cream text-ink p-0 md:h-screen md:overflow-hidden md:p-4 font-sans antialiased relative">
-        {/* Botanical borders */}
+      <body className="min-h-screen bg-cream text-ink p-0 md:h-screen md:overflow-hidden md:px-4 md:pb-4 md:pt-0 font-sans antialiased relative">
         <div className="absolute top-0 left-0 bottom-0 w-8 hidden lg:block overflow-hidden pointer-events-none">
           <LeftBorderLeaves />
         </div>
@@ -28,9 +27,11 @@ export default function RootLayout({
           <RightBorderLeaves />
         </div>
         
-        <div className="relative mx-auto flex min-h-screen max-w-[1600px] flex-col overflow-hidden px-4 md:h-[calc(100vh-2rem)] md:min-h-0 md:px-6 lg:pl-8 lg:pr-14">
-           <ReduxProvider>{children}</ReduxProvider>
-        </div>
+        <ReduxProvider>
+          <div className="flex min-h-screen flex-col md:h-[calc(100vh-1rem)] md:min-h-0">
+            {children}
+          </div>
+        </ReduxProvider>
       </body>
     </html>
   );

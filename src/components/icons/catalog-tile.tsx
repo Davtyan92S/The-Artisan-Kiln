@@ -4,7 +4,7 @@ export const TileSvg = ({ pattern, size = 60, className }: TileSvgProps) => {
   const s = size
   return (
     <div className={className} style={{ width: s, height: s }}>
-      <svg width={s} height={s} viewBox="0 0 60 60" aria-hidden>
+      <svg width={s} height={s} viewBox="0 0 60 60">
         {pattern === 'wave' && (
           <>
             <rect width="60" height="60" fill="#404868" />

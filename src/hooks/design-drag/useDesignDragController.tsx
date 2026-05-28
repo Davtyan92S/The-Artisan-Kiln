@@ -10,6 +10,34 @@ import { DesignPattern } from '@/types'
 import { findGridCell } from './findGridCell'
 import type { DragState, GridDropTarget } from './types'
 
+const renderDragGhost = (drag: DragState) => (
+  <motion.div
+    key="design-drag-ghost"
+    className="pointer-events-none fixed z-[200]"
+    style={{ left: drag.x, top: drag.y }}
+    initial={{ scale: 0.9, opacity: 0.85, x: '-32%', y: '-12%' }}
+    animate={{ scale: 1, opacity: 1, x: '-32%', y: '-12%' }}
+    exit={{ scale: 0.92, opacity: 0 }}
+    transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+  >
+    <DragHandWithTile pattern={drag.pattern} />
+  </motion.div>
+)
+
+const buildOverlay = (drag: DragState | null) => {
+  if (!drag) {
+    return null
+  }
+  if (typeof document === 'undefined') {
+    return null
+  }
+
+  return createPortal(
+    <AnimatePresence>{renderDragGhost(drag)}</AnimatePresence>,
+    document.body,
+  )
+}
+
 export const useDesignDragController = () => {
   const dispatch = useDispatch()
   const [drag, setDrag] = useState<DragState | null>(null)
@@ -32,7 +60,12 @@ export const useDesignDragController = () => {
     }
 
     const onMove = (e: PointerEvent) => {
-      setDrag((prev) => (prev ? { ...prev, x: e.clientX, y: e.clientY } : null))
+      setDrag((prev) => {
+        if (!prev) {
+          return null
+        }
+        return { ...prev, x: e.clientX, y: e.clientY }
+      })
       setDropTarget(findGridCell(e.clientX, e.clientY))
     }
 
@@ -66,27 +99,7 @@ export const useDesignDragController = () => {
     }
   }, [drag, dispatch])
 
-  const overlay =
-    drag &&
-    typeof document !== 'undefined' &&
-    createPortal(
-      <AnimatePresence>
-        {drag ? (
-          <motion.div
-            key="design-drag-ghost"
-            className="pointer-events-none fixed z-[200]"
-            style={{ left: drag.x, top: drag.y }}
-            initial={{ scale: 0.9, opacity: 0.85, x: '-32%', y: '-12%' }}
-            animate={{ scale: 1, opacity: 1, x: '-32%', y: '-12%' }}
-            exit={{ scale: 0.92, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 420, damping: 30 }}
-          >
-            <DragHandWithTile pattern={drag.pattern} />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>,
-      document.body,
-    )
+  const overlay = buildOverlay(drag)
 
   return {
     dropTarget,

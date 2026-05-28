@@ -25,9 +25,14 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     updateQuantity(state, action: PayloadAction<{ tileId: TileId; quantity: number }>) {
+      const quantity = Math.max(0, action.payload.quantity)
+      if (quantity === 0) {
+        state.items = state.items.filter((i) => i.tile.id !== action.payload.tileId)
+        return
+      }
       const item = state.items.find((i) => i.tile.id === action.payload.tileId)
       if (item) {
-        item.quantity = Math.max(0, action.payload.quantity)
+        item.quantity = quantity
       }
     },
     removeItem(state, action: PayloadAction<TileId>) {

@@ -10,7 +10,11 @@ import { DocumentIcon } from '@/components/icons'
 import { MobileCustomerFields } from '@/components/MobileCustomerFields'
 import { DesktopCheckout } from './DesktopCheckout'
 
-export const CheckoutForm = () => {
+type CheckoutFormProps = {
+  showOrderSummaryHeader?: boolean
+}
+
+export const CheckoutForm = ({ showOrderSummaryHeader = true }: CheckoutFormProps) => {
   const {
     register,
     handleSubmit,
@@ -52,9 +56,10 @@ export const CheckoutForm = () => {
         errors={errors}
         paymentMethod={field.value}
         onPaymentChange={field.onChange}
+        showOrderSummaryHeader={showOrderSummaryHeader}
       />
     ),
-    [register, errors],
+    [register, errors, showOrderSummaryHeader],
   )
 
   return (
@@ -78,17 +83,15 @@ export const CheckoutForm = () => {
               {...register('projectNotes')}
             />
           </div>
-          <div className="mt-[30px] border-b border-ink" aria-hidden />
+          <div className="mt-[30px] border-b border-ink" />
         </section>
       </div>
 
-      <div className="hidden h-full min-h-0 min-w-0 max-w-full flex-col overflow-hidden md:flex">
-        <div className="min-h-0 flex-1 overflow-hidden">
-          <Controller control={control} name="paymentMethod" render={renderDesktopPayment} />
-        </div>
+      <div className="design-scroll hidden h-full min-h-0 min-w-0 max-w-full overflow-y-auto pr-1 md:block">
+        <Controller control={control} name="paymentMethod" render={renderDesktopPayment} />
         <button
           type="submit"
-          className="mt-2 w-full shrink-0 rounded-[10px] border-[1.5px] border-ink bg-[#3e4671] py-2.5 font-display text-base font-bold uppercase tracking-wider text-white hover:bg-navy-dark"
+          className="mt-[15px] w-full shrink-0 rounded-[10px] border-[1.5px] border-ink bg-[#3e4671] py-2.5 font-display text-base font-bold uppercase tracking-wider text-white hover:bg-navy-dark"
         >
           PLACE SECURE ORDER
         </button>

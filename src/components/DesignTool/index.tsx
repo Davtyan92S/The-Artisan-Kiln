@@ -7,28 +7,24 @@ import { DesignDragProvider } from "@/components/DesignDrag";
 export const DesignTool = () => {
   return (
     <DesignDragProvider>
-      <div className="h-fit w-full self-start overflow-hidden border-[2px] border-ink bg-cream-panel">
+      <div className="h-fit w-full self-start overflow-hidden rounded-[5px] border-[1.5px] border-ink bg-cream-panel">
         <div className="flex">
-          {/* Left: header + grid */}
-          <div className="flex min-w-0 flex-[74] flex-col border-r-[2px] border-ink">
-            <div className="border-b-[2px] border-ink bg-cream-panel px-2 py-1.5 text-center">
-              <p className="font-display text-sm font-bold uppercase leading-none tracking-wider text-ink md:text-base">
+          <div className="flex min-w-0 flex-[74] flex-col border-r-[1.5px] border-ink">
+            <div className="border-b-[1.5px] border-ink bg-cream-panel px-2 py-1 text-center">
+              <p className="font-display text-xs font-bold uppercase leading-none tracking-wider text-ink md:text-sm">
                 VISUALIZE YOUR ORDER:
               </p>
-              <p className="mt-1 font-sans text-[10px] font-normal leading-snug text-ink md:text-xs">
+              <p className="mt-0.5 font-sans text-[9px] font-normal leading-snug text-ink md:text-[10px]">
                 Drag and drop tiles here to create patterns.
               </p>
             </div>
-            <div className="p-1">
-              <DesignGrid />
-            </div>
+            <DesignGrid />
           </div>
 
-          {/* Right: short header + palette (no stretch below tiles) */}
           <div className="flex min-w-0 flex-[26] flex-col bg-cream-warm">
-            <div className="flex min-h-[2.35rem] items-center justify-center border-b-[2px] border-ink bg-tan px-2 py-1 md:min-h-[2.6rem]">
-              <p className="text-center font-display text-sm font-bold uppercase leading-none tracking-wider text-ink md:text-base">
-                DESIGN PALETTE
+            <div className="border-b-[1.5px] border-ink bg-tan px-1 py-0.5 text-center">
+              <p className="font-display text-[10px] font-bold uppercase leading-none tracking-wider text-ink md:text-xs">
+                DESIGN PALATE
               </p>
             </div>
             <DesignPalette />

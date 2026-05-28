@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { PaletteTileSvg } from '@/components/icons'
 import type { DragHandWithTileProps } from '../types'
 
-/** Drag ghost: PNG hand + pattern tile (replaces SVG hand). */
 export const DragHandWithTile = ({ pattern, className }: DragHandWithTileProps) => (
   <div className={`relative h-[6.5rem] w-[6.5rem] ${className ?? ''}`}>
     <Image

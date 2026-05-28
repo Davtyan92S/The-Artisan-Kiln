@@ -13,11 +13,21 @@ interface DesignState {
 const createEmptyGrid = (): GridCell[][] =>
   Array.from({ length: GRID_ROWS }, (_, row) =>
     Array.from({ length: GRID_COLS }, (_, col) => {
-      if (row !== 0) return null
-      if (col === 0) return 'corner-terra'
-      if (col === 1) return 'corner-navy'
-      if (col === 2) return 'corner-terra'
-      if (col === 3) return 'corner-navy'
+      if (row !== 0) {
+        return null
+      }
+      if (col === 0) {
+        return 'corner-terra'
+      }
+      if (col === 1) {
+        return 'corner-navy'
+      }
+      if (col === 2) {
+        return 'corner-terra'
+      }
+      if (col === 3) {
+        return 'corner-navy'
+      }
       return null
     })
   )

@@ -54,12 +54,7 @@ export const DesignGrid = () => {
 
   return (
     <div className="relative w-full overflow-auto  design-scroll">
-      <div
-        className="grid w-full gap-px bg-ink"
-        style={gridStyle}
-        role="grid"
-        aria-label="Tile pattern grid"
-      >
+      <div className="grid w-full gap-px bg-ink" style={gridStyle}>
         {cells.map((row, rIdx) =>
           row.map((cell, cIdx) => (
             <GridCell

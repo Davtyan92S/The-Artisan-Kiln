@@ -7,6 +7,7 @@ type CartTotalsProps = {
   subtotal: number
   shipping: number
   grandTotal: number
+  part: 'labels' | 'values'
 }
 
 const formatAmount = (value: number) => `[ $${value.toFixed(2)} ]`
@@ -26,33 +27,63 @@ const getAmountForLabel = (
   return formatAmount(grandTotal)
 }
 
-export const CartTotals = ({ subtotal, shipping, grandTotal }: CartTotalsProps) => {
+const rowClass = 'flex h-7 items-center md:h-8'
+
+const getValueBoxClassName = (isSubtotal: boolean, isGrandTotal: boolean) => {
+  const classes = [
+    rowClass,
+    'w-full',
+    'justify-end',
+    'px-1',
+    'font-display',
+    'text-xs',
+    'font-medium',
+    'text-ink',
+    'md:text-sm',
+  ]
+
+  if (isSubtotal) {
+    classes.push('border-x-[1.5px]', 'border-b-[1.5px]', 'border-ink', 'bg-white')
+  } else {
+    classes.push('border-[1.5px]', 'border-ink', 'bg-white')
+  }
+
+  if (isGrandTotal) {
+    classes.push('rounded-b-[5px]', 'bg-tan')
+  }
+
+  return classes.join(' ')
+}
+
+export const CartTotals = ({ subtotal, shipping, grandTotal, part }: CartTotalsProps) => {
   const rows = useMemo(
     () =>
       CART_TOTAL_LABELS.map((label) => ({
         label,
         amount: getAmountForLabel(label, subtotal, shipping, grandTotal),
+        isSubtotal: label === 'SUBTOTAL:',
         isGrandTotal: label === 'GRAND TOTAL:',
       })),
     [subtotal, shipping, grandTotal],
   )
 
-  return (
-    <div className="flex flex-col items-end space-y-0.5">
-      {rows.map(({ label, amount, isGrandTotal }) => (
-        <div key={label} className="flex items-center justify-end gap-1">
-          <span className="font-display text-xs font-medium uppercase tracking-wide text-ink">
-            {label}
-          </span>
-          <span
-            className={`w-[88px] whitespace-nowrap border-[1.5px] border-ink px-1 text-right font-display text-xs font-medium text-ink md:w-24 md:text-sm ${
-              isGrandTotal ? 'bg-tan py-0.5' : 'bg-white'
-            }`}
-          >
-            {amount}
-          </span>
-        </div>
-      ))}
-    </div>
-  )
+  if (part === 'labels') {
+    const labelRows = rows.map(({ label }) => (
+      <div key={label} className={`${rowClass} justify-end pr-1`}>
+        <span className="font-display text-[10px] font-medium uppercase leading-none tracking-wide text-ink md:text-xs">
+          {label}
+        </span>
+      </div>
+    ))
+
+    return <div className="flex flex-col">{labelRows}</div>
+  }
+
+  const valueRows = rows.map(({ label, amount, isSubtotal, isGrandTotal }) => (
+    <span key={label} className={getValueBoxClassName(isSubtotal, isGrandTotal)}>
+      {amount}
+    </span>
+  ))
+
+  return <div className="flex flex-col">{valueRows}</div>
 }

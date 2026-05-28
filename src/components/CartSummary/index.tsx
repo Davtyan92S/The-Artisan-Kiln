@@ -2,11 +2,14 @@
 
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { FieldError } from '@/components/FieldError'
 import { selectGrandTotal, selectShipping, selectSubtotal } from '@/store/cartSlice'
 import { inputClass, labelClass } from './styles'
 import type { CartSummaryProps } from './types'
 
 const formatTotal = (value: number) => `[ $${value.toFixed(2)} ]`
+
+const summaryErrorClass = 'font-display text-[10px] font-bold uppercase text-terracotta'
 
 export const CartSummary = ({ register, errors }: CartSummaryProps) => {
   const subtotal = useSelector(selectSubtotal)
@@ -17,14 +20,23 @@ export const CartSummary = ({ register, errors }: CartSummaryProps) => {
     () => [
       { label: 'SUBTOTAL:', value: subtotal },
       { label: 'SHIPPING:', value: shipping },
-      { label: 'GRAND TOTAL:', value: grandTotal, highlighted: true },
+      { label: 'GRAND TOTAL:', value: grandTotal },
     ],
     [subtotal, shipping, grandTotal],
   )
 
+  const totalRows = totals.map(({ label, value }) => (
+    <div key={label} className="flex items-center justify-end gap-3">
+      <span className="font-display text-xs font-bold uppercase text-ink">{label}</span>
+      <span className="min-w-[8.5rem] whitespace-nowrap px-1 text-right font-display text-sm font-bold text-ink">
+        {formatTotal(value)}
+      </span>
+    </div>
+  ))
+
   return (
     <section className="relative">
-      <div className="absolute left-0 top-0 z-10 -translate-y-px border-[2px] border-b-0 border-ink bg-tan px-4 py-1.5">
+      <div className="absolute left-0 top-0 z-10 -translate-y-px rounded-t-[5px] border-[2px] border-b-0 border-ink bg-tan px-4 py-1.5">
         <h2 className="font-display text-base font-bold uppercase leading-none tracking-wider text-ink">
           ORDER SUMMARY
         </h2>
@@ -36,11 +48,7 @@ export const CartSummary = ({ register, errors }: CartSummaryProps) => {
             <label className={labelClass}>CUSTOMER NAME:</label>
             <input className={inputClass(!!errors.name)} {...register('name')} />
           </div>
-          {errors.name && (
-            <p className="font-display text-[10px] font-bold uppercase text-terracotta">
-              {errors.name.message}
-            </p>
-          )}
+          <FieldError message={errors.name?.message} className={summaryErrorClass} />
 
           <div className="flex items-baseline gap-4">
             <div className="flex min-w-0 flex-[0.38] items-baseline gap-2">
@@ -52,21 +60,13 @@ export const CartSummary = ({ register, errors }: CartSummaryProps) => {
               <input className={inputClass(!!errors.email)} {...register('email')} />
             </div>
           </div>
-          {errors.email && (
-            <p className="font-display text-[10px] font-bold uppercase text-terracotta">
-              {errors.email.message}
-            </p>
-          )}
+          <FieldError message={errors.email?.message} className={summaryErrorClass} />
 
           <div className="flex items-baseline gap-2">
             <label className={labelClass}>SHIPPING ADDRESS:</label>
             <input className={inputClass(!!errors.address)} {...register('address')} />
           </div>
-          {errors.address && (
-            <p className="font-display text-[10px] font-bold uppercase text-terracotta">
-              {errors.address.message}
-            </p>
-          )}
+          <FieldError message={errors.address?.message} className={summaryErrorClass} />
 
           <div className="flex items-baseline gap-2">
             <label className={labelClass}>PROJECT NOTES:</label>
@@ -76,22 +76,7 @@ export const CartSummary = ({ register, errors }: CartSummaryProps) => {
 
         <div className="mx-4 border-t-[2px] border-ink" />
 
-        <div className="flex flex-col items-end gap-1.5 px-4 py-3">
-          {totals.map(({ label, value, highlighted }) => (
-            <div key={label} className="flex items-center justify-end gap-3">
-              <span className="font-display text-xs font-bold uppercase text-ink">{label}</span>
-              <span
-                className={`min-w-[8.5rem] whitespace-nowrap text-right font-display text-sm font-bold text-ink ${
-                  highlighted
-                    ? 'border-[2px] border-ink bg-[#e5d5b8] px-3 py-1'
-                    : 'px-1'
-                }`}
-              >
-                {formatTotal(value)}
-              </span>
-            </div>
-          ))}
-        </div>
+        <div className="flex flex-col items-end gap-1.5 px-4 py-3">{totalRows}</div>
       </div>
     </section>
   )

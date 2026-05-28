@@ -117,22 +117,37 @@ export const ApplePayBadge = ({
   </div>
 )
 
-export const TilePreviewIcon = ({ className, pattern = 'dot' }: TilePreviewIconProps) => (
-  <svg viewBox="0 0 60 60" className={className}>
-    <rect width="60" height="60" fill={pattern === 'dot' ? '#b07050' : '#404868'} />
-    {pattern === 'dot' ? (
+const getTilePreviewFill = (pattern: string) => {
+  if (pattern === 'dot') {
+    return '#b07050'
+  }
+  return '#404868'
+}
+
+const renderTilePreviewPattern = (pattern: string) => {
+  if (pattern === 'dot') {
+    return (
       <>
         <circle cx="30" cy="30" r="10" fill="#eadfc3" opacity="0.9" />
         <circle cx="12" cy="12" r="7" fill="#b86048" />
         <circle cx="48" cy="48" r="7" fill="#b86048" />
       </>
-    ) : (
-      <>
-        <path d="M0 16 Q10 10 17 16 T32 16" fill="none" stroke="#f9f6e7" strokeWidth="2" />
-        <path d="M0 24 Q10 18 17 24 T32 24" fill="none" stroke="#588078" strokeWidth="2" />
-        <path d="M0 32 Q10 26 17 32 T32 32" fill="none" stroke="#f9f6e7" strokeWidth="2" />
-      </>
-    )}
+    )
+  }
+
+  return (
+    <>
+      <path d="M0 16 Q10 10 17 16 T32 16" fill="none" stroke="#f9f6e7" strokeWidth="2" />
+      <path d="M0 24 Q10 18 17 24 T32 24" fill="none" stroke="#588078" strokeWidth="2" />
+      <path d="M0 32 Q10 26 17 32 T32 32" fill="none" stroke="#f9f6e7" strokeWidth="2" />
+    </>
+  )
+}
+
+export const TilePreviewIcon = ({ className, pattern = 'dot' }: TilePreviewIconProps) => (
+  <svg viewBox="0 0 60 60" className={className}>
+    <rect width="60" height="60" fill={getTilePreviewFill(pattern)} />
+    {renderTilePreviewPattern(pattern)}
   </svg>
 )
 

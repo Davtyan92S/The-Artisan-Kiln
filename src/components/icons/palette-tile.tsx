@@ -11,7 +11,6 @@ export const PaletteTileSvg = ({ pattern, size, className }: PaletteTileSvgProps
         width={sized ? size : '100%'}
         height={sized ? size : '100%'}
         viewBox="0 0 60 60"
-        aria-hidden
         preserveAspectRatio="xMidYMid meet"
       >
         {pattern === 'wave' && (
